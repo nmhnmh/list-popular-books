@@ -117,7 +117,7 @@ def generate_weekly_new_book_page():
     ''' Generate report for weekly new books '''
     iso_now = datetime.now(timezone.utc)
     iso_year, iso_week, iso_day = iso_now.isocalendar()
-    week_year_name = "%d-W%d.html" % (iso_year, iso_week)
+    week_year_name = "%dW%d.html" % (iso_year, iso_week)
     db = sqlite3.connect(FEED_DB_PATH)
     c = db.cursor()
     fields = [
@@ -142,7 +142,10 @@ def generate_weekly_new_book_page():
     allbooks = list(map(Entry._make, entries))
     template = jinja_env.get_template('default.html')
     with open(os.path.join(ROOT_DIR, WEEKLY_OUT_PATH, week_year_name), 'w', encoding='utf8') as f:
-        f.write(template.render({'title': 'Safari Books Online {0}-W{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
+        f.write(template.render({'title': 'Safari Books Online {0} Week{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
+    # write this page as index.html as well
+    with open(os.path.join(ROOT_DIR, WEEKLY_OUT_PATH, 'index.html'), 'w', encoding='utf8') as f:
+        f.write(template.render({'title': 'Safari Books Online {0} Week{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
     db.commit()
     db.close()
 
