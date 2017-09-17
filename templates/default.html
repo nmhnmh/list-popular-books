@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h2>{{ length(books) }} books/videos are listed on this page.</h2>
+      <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 col-sm-12 safaribook">
+          <h2><a href="{{ book.id }}" target="_blank">{{ book.title }}</a></h2>
+          <p>
+            <img src="{{ book.cover }}" alt="{{ book.title }}">
+            <ul>
+              <li>Author: <b>{{ book.authors }}</b></li>
+              <li>Publisher: <b>{{ book.publisher }}</b></li>
+              <li>Topic: <b>{{ book.topic }}</b></li>
+              <li>ISBN: <b>{{ book.isbn }}</b></li>
+            </ul>
+            {{ book.summary }}
+          </p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
+

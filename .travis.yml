@@ -1,0 +1,26 @@
+sudo: false
+
+language: python
+python:
+  - "3.6"
+
+addons:
+  apt:
+    packages:
+    - python3-pip
+    - python3-setuptools
+
+before_install:
+  - pip install -r requirements.txt
+
+script:
+  - python3 main.py
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: '.build'
+  target_branch: 'gh-pages'
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
