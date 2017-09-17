@@ -9,11 +9,11 @@ from datetime import datetime, timedelta, timezone
 from time import time
 import argparse
 from collections import namedtuple
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 FEED_URL = 'https://www.safaribooksonline.com/feeds/recently-added.rss'
-FEED_DB_PATH = os.path.join(ROOT_DIR, 'weekly-books.sqlite')
+FEED_DB_PATH = os.path.join(ROOT_DIR, '.database', 'weekly-books.sqlite')
 FEED_DB_TABLE = 'safari_new_books'
 WEEKLY_OUT_PATH = os.path.join(ROOT_DIR, '.build')
 jinja_env = Environment(
@@ -23,7 +23,7 @@ jinja_env = Environment(
 
 
 def save_new_entries(entries, db):
-    iso_now = datatime.now(timezone.utc))
+    iso_now = datetime.now(timezone.utc)
     iso_year, iso_week, iso_day = iso_now.isocalendar()
     '''
     Save each entry into database, transform and convert the field value if necessary.
@@ -117,7 +117,7 @@ def generate_weekly_new_book_page():
     ''' Generate report for weekly new books '''
     iso_now = datetime.now(timezone.utc)
     iso_year, iso_week, iso_day = iso_now.isocalendar()
-    week_year_name = "%d-W%d.html" % (target_year, target_week)
+    week_year_name = "%d-W%d.html" % (iso_year, iso_week)
     db = sqlite3.connect(FEED_DB_PATH)
     c = db.cursor()
     fields = [
@@ -141,8 +141,8 @@ def generate_weekly_new_book_page():
     entries = c.fetchall()
     allbooks = list(map(Entry._make, entries))
     template = jinja_env.get_template('default.html')
-    with open(os.path.join(ROOT_DIR, WEEKLY_OUT_PATH, week_year_name)), 'w', encoding='utf8') as f:
-        f.write(template.render({title: 'Safari Books Online {0}-W{1} New Books'.format([]), books: allbooks})
+    with open(os.path.join(ROOT_DIR, WEEKLY_OUT_PATH, week_year_name), 'w', encoding='utf8') as f:
+        f.write(template.render({'title': 'Safari Books Online {0}-W{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
     db.commit()
     db.close()
 

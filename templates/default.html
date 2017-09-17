@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="container">
-      <h2>{{ length(books) }} books/videos are listed on this page.</h2>
+      <h2>{{ books|length }} books/videos are listed on this page.</h2>
       <div class="row">
         {% for book in books %}
         <div class="col-md-4 col-sm-12 safaribook">

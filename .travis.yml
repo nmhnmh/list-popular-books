@@ -4,6 +4,10 @@ language: python
 python:
   - "3.6"
 
+cache:
+  directories:
+  - .database
+
 addons:
   apt:
     packages:
