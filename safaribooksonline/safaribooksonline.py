@@ -145,7 +145,7 @@ def generate_weekly_new_book_page():
         f.write(template.render({'title': 'Safari Books Online {0} Week{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
     # write this page as index.html as well
     with open(os.path.join(ROOT_DIR, WEEKLY_OUT_PATH, 'index.html'), 'w', encoding='utf8') as f:
-        f.write(template.render({'title': 'Safari Books Online {0} Week{1} New Books'.format(iso_year, iso_week), 'books': allbooks}))
+        f.write(template.render({'title': 'Safari Books Online {0} Week{1} New Books'.format(iso_year, iso_week), 'books': allbooks, 'ts': iso_now.timestamp()}))
     db.commit()
     db.close()
 
