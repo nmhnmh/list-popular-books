@@ -12,6 +12,9 @@
         color: #F65D22;
         font-size: 4rem;
       }
+      .bookinfo{
+        list-style: none;
+      }
       .bookcover{
         float: left;
         padding: 0 6px 6px 0;
@@ -54,7 +57,7 @@
           <h2><a href="{{ book.id }}" target="_blank">{{ book.title }}</a></h2>
           <p>
             <img src="http://via.placeholder.com/136x184" data-src="{{ book.cover }}" alt="{{ book.title }}" class="bookcover lazyload">
-            <ul>
+            <ul class="bookinfo">
               <li>Author: <b>{{ book.authors }}</b></li>
               <li>Publisher: <b>{{ book.publisher }}</b></li>
               <li>Topic: <b>{{ book.topic }}</b></li>
